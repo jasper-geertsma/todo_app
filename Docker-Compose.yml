@@ -1,0 +1,18 @@
+services:
+  backend:
+    build: ./backend
+    environment:
+      ASPNETCORE_URLS: http://+:5000
+    ports:
+      - "5000:5000"
+
+  frontend:
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    command: sh -c "npm ci && npm run start -- --host 0.0.0.0 --port 4200"
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
